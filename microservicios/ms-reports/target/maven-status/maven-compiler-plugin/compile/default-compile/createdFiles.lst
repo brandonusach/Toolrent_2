@@ -1,0 +1,7 @@
+com\toolrent\msreports\MsReportsApplication.class
+com\toolrent\msreports\services\ReportService.class
+com\toolrent\msreports\models\ClientReportDTO.class
+com\toolrent\msreports\models\ToolReportDTO.class
+com\toolrent\msreports\controllers\ReportController.class
+com\toolrent\msreports\models\DashboardReport.class
+com\toolrent\msreports\config\SecurityConfig.class

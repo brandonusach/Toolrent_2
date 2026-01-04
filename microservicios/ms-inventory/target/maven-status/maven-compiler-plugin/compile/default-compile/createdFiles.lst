@@ -1,0 +1,16 @@
+com\toolrent\msinventory\services\ToolInstanceService.class
+com\toolrent\msinventory\entities\ToolInstanceEntity.class
+com\toolrent\msinventory\controllers\CategoryController.class
+com\toolrent\msinventory\MsInventoryApplication.class
+com\toolrent\msinventory\repositories\CategoryRepository.class
+com\toolrent\msinventory\repositories\ToolRepository.class
+com\toolrent\msinventory\entities\CategoryEntity.class
+com\toolrent\msinventory\repositories\ToolInstanceRepository.class
+com\toolrent\msinventory\controllers\ToolInstanceController.class
+com\toolrent\msinventory\services\CategoryService.class
+com\toolrent\msinventory\entities\ToolInstanceEntity$ToolInstanceStatus.class
+com\toolrent\msinventory\services\ToolService.class
+com\toolrent\msinventory\config\SecurityConfig.class
+com\toolrent\msinventory\entities\ToolEntity.class
+com\toolrent\msinventory\controllers\ToolController.class
+com\toolrent\msinventory\entities\ToolEntity$ToolStatus.class

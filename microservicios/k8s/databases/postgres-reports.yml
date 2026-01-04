@@ -1,0 +1,168 @@
+# ============================================
+# PostgreSQL para ms-reports
+# ============================================
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-reports
+  namespace: toolrent
+  labels:
+    app: postgres-reports
+    tier: database
+spec:
+  serviceName: postgres-reports-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-reports
+  template:
+    metadata:
+      labels:
+        app: postgres-reports
+        tier: database
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          value: "reports_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - postgres
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - postgres
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-reports-service
+  namespace: toolrent
+  labels:
+    app: postgres-reports
+    tier: database
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-reports
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgres
+            - -U
+            - pg_isready
+            command:
+          exec:
+        readinessProbe:
+          timeoutSeconds: 5
+          periodSeconds: 10
+          initialDelaySeconds: 30
+            - postgres
+            - -U
+            - pg_isready
+            command:
+          exec:
+        livenessProbe:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+          requests:
+        resources:
+          mountPath: /var/lib/postgresql/data
+        - name: postgres-storage
+        volumeMounts:
+          value: /var/lib/postgresql/data/pgdata
+        - name: PGDATA
+              key: POSTGRES_PASSWORD
+              name: postgres-secret
+            secretKeyRef:
+          valueFrom:
+        - name: POSTGRES_PASSWORD
+              key: POSTGRES_USER
+              name: postgres-secret
+            secretKeyRef:
+          valueFrom:
+        - name: POSTGRES_USER
+          value: "reports_db"
+        - name: POSTGRES_DB
+        env:
+          name: postgres
+        - containerPort: 5432
+        ports:
+        imagePullPolicy: IfNotPresent
+        image: postgres:15-alpine
+      - name: postgres
+      containers:
+    spec:
+        tier: database
+        app: postgres-reports
+      labels:
+    metadata:
+  template:
+      app: postgres-reports
+    matchLabels:
+  selector:
+  replicas: 1
+  serviceName: postgres-reports-service
+spec:
+    tier: database
+    app: postgres-reports
+  labels:
+  namespace: toolrent
+  name: postgres-reports
+metadata:
+kind: StatefulSet
+apiVersion: apps/v1
+# ============================================
+# PostgreSQL para ms-reports
+

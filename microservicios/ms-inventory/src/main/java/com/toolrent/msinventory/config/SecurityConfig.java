@@ -1,0 +1,37 @@
+package com.toolrent.msinventory.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                // Actuator y Eureka públicos
+                .requestMatchers("/actuator/**", "/eureka/**").permitAll()
+                // Endpoints públicos (solo lectura sin autenticación para pruebas)
+                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+                // Endpoints de modificación requieren autenticación
+                .requestMatchers(HttpMethod.POST, "/api/v1/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/v1/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").authenticated()
+                .anyRequest().authenticated()
+            )
+            // Validación de JWT (sin instalar Keycloak completo)
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+
+        return http.build();
+    }
+}
+

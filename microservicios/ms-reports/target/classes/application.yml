@@ -1,0 +1,41 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: ms-reports
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8090/realms/toolrent-realm}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://eureka-server:8761/eureka/}
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# URLs de microservicios
+microservices:
+  inventory:
+    url: http://ms-inventory
+  loans:
+    url: http://ms-loans
+  clients:
+    url: http://ms-clients
+  rates:
+    url: http://ms-rates
+  kardex:
+    url: http://ms-kardex
+
