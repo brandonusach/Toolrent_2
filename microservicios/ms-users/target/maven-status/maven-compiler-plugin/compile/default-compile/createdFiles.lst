@@ -1,7 +1,0 @@
-com\toolrent\msusers\config\SecurityConfig.class
-com\toolrent\msusers\services\UserService.class
-com\toolrent\msusers\entities\UserEntity$UserRole.class
-com\toolrent\msusers\MsUsersApplication.class
-com\toolrent\msusers\controllers\UserController.class
-com\toolrent\msusers\repositories\UserRepository.class
-com\toolrent\msusers\entities\UserEntity.class

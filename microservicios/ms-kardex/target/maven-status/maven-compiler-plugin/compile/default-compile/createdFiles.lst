@@ -1,8 +1,0 @@
-com\toolrent\mskardex\services\KardexMovementService$1.class
-com\toolrent\mskardex\config\SecurityConfig.class
-com\toolrent\mskardex\entities\KardexMovementEntity$MovementType.class
-com\toolrent\mskardex\MsKardexApplication.class
-com\toolrent\mskardex\controllers\KardexMovementController.class
-com\toolrent\mskardex\services\KardexMovementService.class
-com\toolrent\mskardex\entities\KardexMovementEntity.class
-com\toolrent\mskardex\repositories\KardexMovementRepository.class

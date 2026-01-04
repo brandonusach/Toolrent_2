@@ -1,0 +1,25 @@
+# Archivos compilados
+**/target/
+*.jar
+*.war
+*.class
+
+# Dependencias
+**/node_modules/
+**/.mvn/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.bak

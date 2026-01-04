@@ -1,7 +1,0 @@
-com\toolrent\msclients\config\SecurityConfig.class
-com\toolrent\msclients\controllers\ClientController.class
-com\toolrent\msclients\entities\ClientEntity.class
-com\toolrent\msclients\entities\ClientEntity$ClientStatus.class
-com\toolrent\msclients\MsClientsApplication.class
-com\toolrent\msclients\repositories\ClientRepository.class
-com\toolrent\msclients\services\ClientService.class
