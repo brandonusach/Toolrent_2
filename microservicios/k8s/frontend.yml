@@ -23,12 +23,14 @@ spec:
         - containerPort: 80
           name: http
         env:
+        - name: VITE_API_URL
+          value: "/api/v1"
         - name: VITE_KEYCLOAK_URL
-          value: "http://localhost:8090"  # Keycloak corriendo localmente
+          value: "http://172.20.147.108:30090"
         - name: VITE_KEYCLOAK_REALM
-          value: "toolrent-realm"
+          value: "ToolRent"
         - name: VITE_KEYCLOAK_CLIENT_ID
-          value: "toolrent-frontend"
+          value: "toolrent-client"
         - name: VITE_MINIKUBE_IP
           value: "172.20.147.108"  # IP de Minikube
         - name: VITE_API_GATEWAY_PORT

@@ -16,42 +16,33 @@ spec:
         app: keycloak
     spec:
       containers:
-      - name: keycloak
-        image: quay.io/keycloak/keycloak:latest
-        args: ["start-dev"]
-        ports:
-        - containerPort: 8080
-          name: http
-        env:
-        - name: KEYCLOAK_ADMIN
-          value: "admin"
-        - name: KEYCLOAK_ADMIN_PASSWORD
-          value: "admin"
-        - name: KC_PROXY
-          value: "edge"
-        - name: KC_HOSTNAME_STRICT
-          value: "false"
-        - name: KC_HTTP_ENABLED
-          value: "true"
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "1000m"
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health/live
-            port: 8080
-          initialDelaySeconds: 90
-          periodSeconds: 10
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:23.0.0
+          args: ["start-dev"]
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: "admin"
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: "admin"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HTTP_ENABLED
+              value: "true"
+            - name: KC_HEALTH_ENABLED  # Agregamos esto por seguridad, aunque quitamos los probes
+              value: "true"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+          # SECCION DE PROBES ELIMINADA PARA EVITAR REINICIOS
 ---
 apiVersion: v1
 kind: Service
@@ -65,9 +56,8 @@ spec:
   selector:
     app: keycloak
   ports:
-  - name: http
-    port: 8090        # Puerto del Servicio (interno)
-    targetPort: 8080  # Puerto real del contenedor
-    nodePort: 30090   # Puerto para acceder desde tu navegador
-    protocol: TCP
-
+    - name: http
+      port: 8090
+      targetPort: 8080
+      nodePort: 30090
+      protocol: TCP

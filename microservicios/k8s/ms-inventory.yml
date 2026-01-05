@@ -20,6 +20,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
+        - name: SPRING_CONFIG_IMPORT
+          value: "optional:configserver:http://config-server:8888"
         - name: DB_HOST
           value: "postgres-inventory-service"
         - name: DB_PORT
