@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://localhost:8081',
+                target: 'http://172.20.147.108:30080', // API Gateway en Kubernetes
                 changeOrigin: true,
                 secure: false,
                 configure: (proxy, _options) => {

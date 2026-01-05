@@ -4,7 +4,7 @@ import keycloak from "./auth/keycloak";
 const isProduction = import.meta.env.PROD;
 
 // Para Kubernetes/Minikube, obtener IP dinámicamente o configurar manualmente
-const minikubeIP = import.meta.env.VITE_MINIKUBE_IP || '192.168.59.100'; // Por defecto, cambiar según tu minikube ip
+const minikubeIP = import.meta.env.VITE_MINIKUBE_IP || '172.20.147.108'; // IP obtenida con: minikube ip
 const apiGatewayPort = import.meta.env.VITE_API_GATEWAY_PORT || '30080'; // NodePort del API Gateway
 
 console.log('Modo de producción:', isProduction);

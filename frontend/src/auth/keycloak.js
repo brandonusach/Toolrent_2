@@ -11,9 +11,9 @@ const getEnvConfig = (key, defaultValue) => {
 };
 
 const keycloakConfig = {
-    url: getEnvConfig('VITE_KEYCLOAK_URL', 'http://localhost:30090'),
-    realm: getEnvConfig('VITE_KEYCLOAK_REALM', 'toolrent-realm'),
-    clientId: getEnvConfig('VITE_KEYCLOAK_CLIENT_ID', 'toolrent-frontend')
+    url: getEnvConfig('VITE_KEYCLOAK_URL', 'http://172.20.147.108:30090'),
+    realm: getEnvConfig('VITE_KEYCLOAK_REALM', 'ToolRent'),
+    clientId: getEnvConfig('VITE_KEYCLOAK_CLIENT_ID', 'toolrent-client')
 };
 
 console.log('Keycloak Config:', keycloakConfig);
