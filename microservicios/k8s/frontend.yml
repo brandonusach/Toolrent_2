@@ -30,7 +30,7 @@ spec:
         - name: VITE_KEYCLOAK_CLIENT_ID
           value: "toolrent-frontend"
         - name: VITE_MINIKUBE_IP
-          value: "192.168.49.2"  # Cambiar por la IP de tu Minikube
+          value: "172.20.147.108"  # IP de Minikube
         - name: VITE_API_GATEWAY_PORT
           value: "30080"
         resources:
