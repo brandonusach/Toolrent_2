@@ -7,10 +7,11 @@ import "./index.css";
 
 // Configuración de inicialización de Keycloak
 const initOptions = {
-    onLoad: 'login-required', // Redirige automáticamente al login
+    onLoad: 'check-sso',      // Verifica SSO sin forzar login inmediato
     checkLoginIframe: false,  // Desactiva iframe para evitar problemas
-    // Opcional: puedes usar 'check-sso' en lugar de 'login-required'
-    // si quieres verificar si hay una sesión sin forzar login
+    flow: 'implicit',         // Usar flujo implicit para evitar PKCE y Web Crypto API
+    enableLogging: true,      // Habilitar logging para debug
+    silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
