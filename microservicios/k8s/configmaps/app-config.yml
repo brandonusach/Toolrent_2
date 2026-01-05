@@ -7,8 +7,9 @@ data:
   # URLs de servicios
   EUREKA_URL: "http://eureka-server:8761/eureka/"
   CONFIG_SERVER_URL: "http://config-server:8888"
-  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/toolrent-realm"
-  KEYCLOAK_JWK_SET_URI: "http://keycloak:8080/realms/toolrent-realm/protocol/openid-connect/certs"
+  # Keycloak corriendo localmente en host (no en K8s)
+  KEYCLOAK_ISSUER_URI: "http://host.minikube.internal:8090/realms/toolrent-realm"
+  KEYCLOAK_JWK_SET_URI: "http://host.minikube.internal:8090/realms/toolrent-realm/protocol/openid-connect/certs"
 
   # Configuración de bases de datos (hosts y puertos)
   DB_PORT: "5432"

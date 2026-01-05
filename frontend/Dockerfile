@@ -38,6 +38,14 @@ COPY --from=build /app/dist /usr/share/nginx/html
 # Copiar configuración de nginx personalizada
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copiar el script de entrypoint para inyectar variables en runtime
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Copiar el template de configuración de entorno
+COPY public/env-config.js /usr/share/nginx/html/env-config.js
+
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Usar el script de entrypoint en lugar de nginx directamente
+ENTRYPOINT ["/docker-entrypoint.sh"]

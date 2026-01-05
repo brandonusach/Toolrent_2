@@ -22,10 +22,21 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        env:
+        - name: VITE_KEYCLOAK_URL
+          value: "http://localhost:8090"  # Keycloak corriendo localmente
+        - name: VITE_KEYCLOAK_REALM
+          value: "toolrent-realm"
+        - name: VITE_KEYCLOAK_CLIENT_ID
+          value: "toolrent-frontend"
+        - name: VITE_MINIKUBE_IP
+          value: "192.168.49.2"  # Cambiar por la IP de tu Minikube
+        - name: VITE_API_GATEWAY_PORT
+          value: "30080"
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "250m"
+            memory: "64Mi"
+            cpu: "10m"
           limits:
             memory: "512Mi"
             cpu: "500m"

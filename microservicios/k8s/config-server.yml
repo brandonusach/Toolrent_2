@@ -24,8 +24,8 @@ spec:
           value: "http://eureka-server:8761/eureka/"
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "250m"
+            memory: "128Mi"
+            cpu: "10m"
           limits:
             memory: "1Gi"
             cpu: "500m"
