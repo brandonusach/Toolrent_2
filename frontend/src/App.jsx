@@ -32,8 +32,12 @@ const AppContent = () => {
         );
     }
 
-    // Si no está autenticado, Keycloak maneja automáticamente la redirección al login
+    // Si no está autenticado, redirigir al login de Keycloak
     if (!keycloak.authenticated) {
+        // Redirigir automáticamente al login
+        keycloak.login();
+
+        // Mostrar mensaje mientras se redirige
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-900">
                 <div className="text-center">

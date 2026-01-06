@@ -6,17 +6,19 @@ import App from "./App";
 import "./index.css";
 
 // Configuración de inicialización de Keycloak para HTTP (sin HTTPS)
-// SOLUCIÓN para evitar error "Web Crypto API is not available":
-// 1. Usar flujo 'standard' (authorization code) - más seguro que implicit
-// 2. NO especificar pkceMethod - Keycloak automáticamente NO usará PKCE en HTTP
-// 3. checkLoginIframe: false - evita problemas con cookies de terceros
+// SOLUCIÓN DEFINITIVA para evitar error "Web Crypto API is not available":
+//
+// En HTTP (sin HTTPS), el navegador NO permite usar Web Crypto API.
+// Keycloak 21+ con Standard Flow intenta usar PKCE, que REQUIERE Web Crypto API.
+// SOLUCIÓN: Deshabilitar PKCE explícitamente con flow: 'implicit'
+//
+// IMPORTANTE: En versión 21.1.2, el parámetro 'flow' sí es reconocido.
+// Si usas versión 23+, este parámetro puede ser ignorado.
 const initOptions = {
     onLoad: 'check-sso',          // Verifica SSO sin forzar login inmediato
     checkLoginIframe: false,       // CRÍTICO: Desactiva iframe para evitar problemas CORS y cookies
-    flow: 'standard',              // Flujo authorization code
+    flow: 'implicit',              // CRÍTICO: Usar Implicit Flow (no requiere PKCE ni Web Crypto API)
     enableLogging: true,           // Habilitar logging para debug
-    // NO incluir pkceMethod aquí - causaría error en HTTP
-    // Keycloak automáticamente no usará PKCE cuando detecta HTTP
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -91,8 +91,10 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8090/realms/toolrent-realm}
-          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://keycloak:8090/realms/toolrent-realm/protocol/openid-connect/certs}
+          # Para comunicación INTERNA en K8s, usar el puerto del contenedor (8080)
+          # El servicio "keycloak" en K8s redirige al puerto 8080 del contenedor
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/realms/ToolRent}
+          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs}
 
 eureka:
   client:
