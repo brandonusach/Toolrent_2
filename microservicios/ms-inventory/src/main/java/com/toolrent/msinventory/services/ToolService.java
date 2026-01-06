@@ -97,6 +97,63 @@ public class ToolService {
         return toolRepository.save(tool);
     }
 
+    @Transactional
+    public ToolEntity addStock(Long toolId, Integer quantity) {
+        if (quantity == null || quantity < 1) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
+        }
+
+        ToolEntity tool = toolRepository.findById(toolId)
+                .orElseThrow(() -> new RuntimeException("Herramienta no encontrada"));
+
+        // Crear nuevas instancias
+        for (int i = 0; i < quantity; i++) {
+            ToolInstanceEntity instance = new ToolInstanceEntity(tool);
+            toolInstanceRepository.save(instance);
+        }
+
+        // Actualizar el stock actual
+        tool.setCurrentStock(tool.getCurrentStock() + quantity);
+        return toolRepository.save(tool);
+    }
+
+    @Transactional
+    public ToolEntity decommissionTool(Long toolId, Long instanceId) {
+        if (instanceId == null) {
+            throw new IllegalArgumentException("ID de instancia es requerido");
+        }
+
+        ToolEntity tool = toolRepository.findById(toolId)
+                .orElseThrow(() -> new RuntimeException("Herramienta no encontrada"));
+
+        ToolInstanceEntity instance = toolInstanceRepository.findById(instanceId)
+                .orElseThrow(() -> new RuntimeException("Instancia no encontrada"));
+
+        if (!instance.getTool().getId().equals(toolId)) {
+            throw new IllegalArgumentException("La instancia no pertenece a esta herramienta");
+        }
+
+        if (instance.isLoaned()) {
+            throw new IllegalArgumentException("No se puede dar de baja una instancia en préstamo");
+        }
+
+        if (instance.isDecommissioned()) {
+            throw new IllegalArgumentException("La instancia ya está dada de baja");
+        }
+
+        // Cambiar el estado de la instancia
+        instance.setStatus(ToolInstanceEntity.ToolInstanceStatus.DECOMMISSIONED);
+        toolInstanceRepository.save(instance);
+
+        // Actualizar el stock actual
+        if (tool.getCurrentStock() > 0) {
+            tool.setCurrentStock(tool.getCurrentStock() - 1);
+            toolRepository.save(tool);
+        }
+
+        return tool;
+    }
+
     private void validateToolData(ToolEntity tool) {
         if (tool.getName() == null || tool.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre de la herramienta es requerido");

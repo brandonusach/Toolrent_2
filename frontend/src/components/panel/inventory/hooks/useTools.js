@@ -16,7 +16,8 @@ export const useTools = () => {
             setTools(response.data || []);
         } catch (err) {
             console.error('Error loading tools:', err);
-            setError(err.message);
+            const errorMessage = err?.message || err?.toString() || 'Error desconocido al cargar herramientas';
+            setError(errorMessage);
             setTools([]);
         } finally {
             setLoading(false);
@@ -107,8 +108,9 @@ export const useTools = () => {
             return updatedTool;
         } catch (err) {
             console.error('Error decommissioning tool:', err);
-            const error = new Error(err.message || 'Error al dar de baja');
-            error.response = { data: err.response?.data || err.message };
+            const errorMessage = err?.response?.data?.message || err?.message || 'Error al dar de baja';
+            const error = new Error(errorMessage);
+            error.response = { data: err?.response?.data || errorMessage };
             throw error;
         }
     }, []);

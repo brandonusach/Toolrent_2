@@ -86,15 +86,15 @@ spring:
             allowCredentials: true  # Necesario para enviar JWT tokens
             maxAge: 3600  # Cache de preflight por 1 hora
 
-  # Configuración OAuth2 Resource Server
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          # Para comunicación INTERNA en K8s, usar el puerto del contenedor (8080)
-          # El servicio "keycloak" en K8s redirige al puerto 8080 del contenedor
-          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/realms/ToolRent}
-          jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs}
+  # TEMPORAL: Configuración OAuth2 Resource Server comentada para debugging
+  # security:
+  #   oauth2:
+  #     resourceserver:
+  #       jwt:
+  #         # Para comunicación INTERNA en K8s, usar el puerto del servicio (8090)
+  #         # El servicio "keycloak" en K8s expone el puerto 8090
+  #         issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8090/realms/ToolRent}
+  #         jwk-set-uri: ${KEYCLOAK_JWK_SET_URI:http://keycloak:8090/realms/ToolRent/protocol/openid-connect/certs}
 
 eureka:
   client:

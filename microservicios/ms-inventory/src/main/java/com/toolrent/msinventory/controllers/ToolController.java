@@ -79,5 +79,25 @@ public class ToolController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PostMapping("/{id}/add-stock")
+    public ResponseEntity<?> addStock(@PathVariable Long id, @RequestParam Integer quantity) {
+        try {
+            ToolEntity updated = toolService.addStock(id, quantity);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}/decommission")
+    public ResponseEntity<?> decommissionTool(@PathVariable Long id, @RequestParam Long instanceId) {
+        try {
+            ToolEntity updated = toolService.decommissionTool(id, instanceId);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
 

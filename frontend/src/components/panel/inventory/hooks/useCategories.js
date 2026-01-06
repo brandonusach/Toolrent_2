@@ -15,7 +15,8 @@ export const useCategories = () => {
             setCategories(response.data || []);
         } catch (err) {
             console.error('Error loading categories:', err);
-            setError(err.message);
+            const errorMessage = err?.message || err?.toString() || 'Error desconocido al cargar categorías';
+            setError(errorMessage);
             setCategories([]);
         } finally {
             setLoading(false);
@@ -66,7 +67,8 @@ export const useCategories = () => {
             return true;
         } catch (err) {
             console.error('Error deleting category:', err);
-            throw new Error(err.message || 'Error al eliminar la categoría');
+            const errorMessage = err?.response?.data?.message || err?.message || 'Error al eliminar la categoría';
+            throw new Error(errorMessage);
         }
     }, []);
 

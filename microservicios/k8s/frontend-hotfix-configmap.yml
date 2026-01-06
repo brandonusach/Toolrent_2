@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-hotfix
+  namespace: toolrent
+data:
+  hotfix.js: |
+    // Hotfix para forzar modo producción y mejorar manejo de errores
+    console.log('🔧 Aplicando hotfix de manejo de errores...');
+    
+    // Interceptar axios globalmente antes de que se inicialice la app
+    window.addEventListener('DOMContentLoaded', function() {
+      // Esperar un poco para que axios se cargue
+      setTimeout(function() {
+        if (window.axios) {
+          console.log('✓ Axios encontrado, aplicando interceptores...');
+          
+          // Interceptor de respuesta global
+          window.axios.interceptors.response.use(
+            function(response) {
+              return response;
+            },
+            function(error) {
+              console.error('=== ERROR INTERCEPTADO ===');
+              
+              // Validación segura de propiedades del error
+              if (error && typeof error === 'object') {
+                // Solo acceder a config si existe
+                if (error.config && error.config.url) {
+                  console.error('URL:', error.config.url);
+                } else {
+                  console.error('Error sin configuración de URL disponible');
+                }
+                
+                // Asegurar que error.message siempre exista
+                if (error.response) {
+                  error.message = error.response.data?.message || 
+                                 error.response.data || 
+                                 `Error ${error.response.status}: ${error.response.statusText}`;
+                } else if (error.request) {
+                  error.message = 'No se pudo conectar con el servidor. Verifica que el API Gateway esté corriendo en http://172.20.147.108:30080';
+                } else {
+                  error.message = error.message || 'Error desconocido en la petición';
+                }
+                
+                console.error('Mensaje de error normalizado:', error.message);
+              } else {
+                // Si el error no es un objeto válido, crear uno nuevo
+                console.error('Error inválido recibido:', error);
+                error = new Error('Error desconocido en la petición');
+              }
+              
+              console.error('==========================');
+              
+              return Promise.reject(error);
+            }
+          );
+          
+          console.log('✓ Hotfix aplicado correctamente');
+        } else {
+          console.warn('⚠ Axios no encontrado, no se puede aplicar hotfix');
+        }
+      }, 1000);
+    });
+

@@ -17,7 +17,8 @@ export const useFines = () => {
             setFines(response.data || []);
         } catch (err) {
             console.error('Error loading fines:', err);
-            setError(err.message);
+            const errorMessage = err?.message || err?.toString() || 'Error desconocido al cargar multas';
+            setError(errorMessage);
             setFines([]);
         } finally {
             setLoading(false);
@@ -32,8 +33,9 @@ export const useFines = () => {
             const response = await httpClient.get('/api/v1/fines/unpaid');
             setUnpaidFines(response.data || []);
         } catch (err) {
-            console.error('Error loading unpaid fines:', err);
-            setError(err.message);
+            console.error('Error loading pending fines:', err);
+            const errorMessage = err?.message || err?.toString() || 'Error desconocido al cargar multas pendientes';
+            setError(errorMessage);
             setUnpaidFines([]);
         } finally {
             setLoading(false);

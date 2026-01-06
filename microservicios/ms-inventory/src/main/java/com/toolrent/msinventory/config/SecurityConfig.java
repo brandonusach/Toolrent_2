@@ -24,18 +24,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Actuator y Eureka públicos
-                .requestMatchers("/actuator/**", "/eureka/**").permitAll()
-                // Endpoints públicos (solo lectura sin autenticación para pruebas)
-                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                // Endpoints de modificación requieren autenticación
-                .requestMatchers(HttpMethod.POST, "/api/v1/**").authenticated()
-                .requestMatchers(HttpMethod.PUT, "/api/v1/**").authenticated()
-                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").authenticated()
-                .anyRequest().authenticated()
-            )
-            // Validación de JWT (sin instalar Keycloak completo)
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt());
+                // TEMPORAL: Permitir todos los endpoints sin autenticación para debug
+                .anyRequest().permitAll()
+            );
+            // TEMPORAL: Comentar OAuth2 para evitar errores de conexión con Keycloak
+            // .oauth2ResourceServer(oauth2 -> oauth2.jwt());
 
         return http.build();
     }

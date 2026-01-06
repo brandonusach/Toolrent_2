@@ -16,7 +16,8 @@ export const useClients = () => {
             setClients(response.data || []);
         } catch (err) {
             console.error('Error loading clients:', err);
-            setError(err.message);
+            const errorMessage = err?.message || err?.toString() || 'Error desconocido al cargar clientes';
+            setError(errorMessage);
             setClients([]);
         } finally {
             setLoading(false);
